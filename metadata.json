@@ -1,0 +1,6 @@
+{
+  "name": "ChatDep",
+  "description": "ChatDep - Tu IA Inteligente, Siempre Contigo. Aplicación Android nativa con Gemini, historial en Firestore y autenticación.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
