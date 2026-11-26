@@ -46,12 +46,13 @@ jobs:
           if [ ! -f debug.keystore ] && [ -f debug.keystore.base64 ]; then
             base64 -d debug.keystore.base64 > debug.keystore
           fi
+          keytool -list -keystore debug.keystore -storepass android -alias androiddebugkey
 
       - name: Ejecutar pruebas unitarias y Robolectric
-        run: gradle :app:testDebugUnitTest --no-daemon
+        run: gradle :app:testDebugUnitTest --no-daemon --max-workers=2 --stacktrace -Dorg.gradle.jvmargs="-Xmx2560m -Dfile.encoding=UTF-8"
 
       - name: Compilar APK Debug
-        run: gradle :app:assembleDebug --no-daemon
+        run: gradle :app:assembleDebug --no-daemon --max-workers=2 --stacktrace -Dorg.gradle.jvmargs="-Xmx2560m -Dfile.encoding=UTF-8"
 
       - name: Preparar firma Release y compilar APK Release
         env:
@@ -81,7 +82,7 @@ jobs:
             export KEY_PASSWORD="$CI_PASS"
             echo "RELEASE_SIGNING_MODE=Firma automática de CI (configura RELEASE_KEYSTORE_BASE64 para actualizaciones con firma fija)" >> "$GITHUB_ENV"
           fi
-          gradle :app:assembleRelease --no-daemon
+          gradle :app:assembleRelease --no-daemon --max-workers=2 --stacktrace -Dorg.gradle.jvmargs="-Xmx2560m -Dfile.encoding=UTF-8"
 
       - name: Preparar APKs para descarga
         run: |
